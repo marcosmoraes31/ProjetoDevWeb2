@@ -49,5 +49,70 @@ public class EditionController {
             return "Evento não encontrado";
         }
     }
+    @PutMapping(path = "/api/events/{eventId}/editions/{editionId}")
+    public String atualizarEdicaoParaEvento(
+            @PathVariable long eventId,
+            @PathVariable long editionId,
+            @RequestBody EdicaoModel edicaoAtualizada) {
+
+        Optional<EventoModel> eventoOptional = eventoRepository.findById(eventId);
+        Optional<EdicaoModel> edicaoOptional = edicaoRepository.findById(editionId);
+
+        if (eventoOptional.isPresent() && edicaoOptional.isPresent()) {
+            EventoModel evento = eventoOptional.get();
+            EdicaoModel edicao = edicaoOptional.get();
+
+            // Verifica se a edição pertence ao evento
+            if (edicao.getEventos().contains(evento)) {
+                // Atualiza os dados da edição
+                edicao.setNumber(edicaoAtualizada.getNumber());
+                edicao.setYear(edicaoAtualizada.getYear());
+                edicao.setStartDate(edicaoAtualizada.getStartDate());
+                edicao.setEndDate(edicaoAtualizada.getEndDate());
+                edicao.setCity(edicaoAtualizada.getCity());
+
+
+                // Salva a edição atualizada
+                edicaoRepository.save(edicao);
+
+                return "Edição atualizada com sucesso";
+            } else {
+                return "A edição não pertence ao evento especificado";
+            }
+        } else {
+            return "Evento ou edição não encontrado";
+        }
+    }
+    @DeleteMapping(path = "/api/events/{eventId}/editions/{editionId}")
+    public String deletarEdicaoParaEvento(
+            @PathVariable long eventId,
+            @PathVariable long editionId) {
+
+        Optional<EventoModel> eventoOptional = eventoRepository.findById(eventId);
+        Optional<EdicaoModel> edicaoOptional = edicaoRepository.findById(editionId);
+
+        if (eventoOptional.isPresent() && edicaoOptional.isPresent()) {
+            EventoModel evento = eventoOptional.get();
+            EdicaoModel edicao = edicaoOptional.get();
+
+            // Verifica se a edição pertence ao evento
+            if (edicao.getEventos().contains(evento)) {
+                // Remove a edição do evento
+                evento.getEditions().remove(edicao); // Alteração aqui
+
+                // Remove o evento da edição (opcional, dependendo da sua lógica)
+                edicao.getEventos().remove(evento); // Alteração aqui
+
+                // Remove a edição do repositório
+                edicaoRepository.delete(edicao);
+
+                return "Edição deletada com sucesso";
+            } else {
+                return "A edição não pertence ao evento especificado";
+            }
+        } else {
+            return "Evento ou edição não encontrado";
+        }
+    }
 
 }

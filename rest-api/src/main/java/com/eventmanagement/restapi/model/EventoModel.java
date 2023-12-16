@@ -20,8 +20,10 @@ public class EventoModel {
     @Column (nullable = false, length = 50)
     public String description;
 
-    @ManyToMany(mappedBy = "eventos")
+    @OneToMany(mappedBy = "eventos")
     private Set<EdicaoModel> editions;
+
+
 
     public Long getId() {
         return id;
@@ -54,5 +56,14 @@ public class EventoModel {
     public void setDescription(String description) {
         this.description = description;
     }
-}
 
+    public Set<EdicaoModel> getEditions() {
+        return editions;
+    }
+
+    public void setEditions(Set<EdicaoModel> editions) {
+        this.editions = editions;
+    }
+
+
+}

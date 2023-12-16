@@ -27,8 +27,11 @@ public class EdicaoModel {
             inverseJoinColumns = @JoinColumn(name = "evento_id")
     )
 
-    private Set<EventoModel> eventos;
 
+
+    private Set<EventoModel> eventos;
+    @OneToMany(mappedBy = "edicao")
+    private Set<EspacoModel> espacos;
 
 
     public long getId() {
