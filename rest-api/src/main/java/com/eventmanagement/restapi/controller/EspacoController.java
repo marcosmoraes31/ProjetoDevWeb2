@@ -55,8 +55,65 @@ public class EspacoController {
             return "Evento ou Edição não encontrados";
         }
     }
+    @DeleteMapping("/api/events/{eventId}/editions/{editionId}/espacos/{espacoId}")
+    public String deletarEspaco(
+            @PathVariable long eventId,
+            @PathVariable long editionId,
+            @PathVariable long espacoId) {
 
+        // Verifica se o evento, a edição e o espaço existem
+        Optional<EventoModel> eventoOptional = eventoRepository.findById(eventId);
+        Optional<EdicaoModel> edicaoOptional = edicaoRepository.findById(editionId);
+        Optional<EspacoModel> espacoOptional = espacoRepository.findById(espacoId);
+
+        if (eventoOptional.isPresent() && edicaoOptional.isPresent() && espacoOptional.isPresent()) {
+            // Remove o espaço
+            espacoRepository.delete(espacoOptional.get());
+
+            return "Espaço deletado com sucesso";
+        } else {
+            return "Evento, Edição ou Espaço não encontrados";
+        }
+    }
+
+    @PutMapping("/api/events/{eventId}/editions/{editionId}/espacos/{espacoId}")
+    public String atualizarEspaco(
+            @PathVariable long eventId,
+            @PathVariable long editionId,
+            @PathVariable long espacoId,
+            @RequestBody EspacoModel espacoAtualizado) {
+
+        // Verifica se o evento, a edição e o espaço existem
+        Optional<EventoModel> eventoOptional = eventoRepository.findById(eventId);
+        Optional<EdicaoModel> edicaoOptional = edicaoRepository.findById(editionId);
+        Optional<EspacoModel> espacoOptional = espacoRepository.findById(espacoId);
+
+        if (eventoOptional.isPresent() && edicaoOptional.isPresent() && espacoOptional.isPresent()) {
+            EventoModel evento = eventoOptional.get();
+            EdicaoModel edicao = edicaoOptional.get();
+            EspacoModel espacoExistente = espacoOptional.get();
+
+            // Atualiza os atributos do espaço existente com base no espacoAtualizado
+            espacoExistente.setName(espacoAtualizado.getName());
+            espacoExistente.setLocation(espacoAtualizado.getLocation());
+            espacoExistente.setCapacity(espacoAtualizado.getCapacity());
+            espacoExistente.setResources(espacoAtualizado.getResources());
+
+            // Atualiza o evento e a edição para o espaço
+            espacoExistente.setEvento(evento);
+            espacoExistente.setEdicao(edicao);
+
+            // Salva o espaço atualizado
+            espacoRepository.save(espacoExistente);
+
+            return "Espaço atualizado com sucesso";
+        } else {
+            return "Evento, Edição ou Espaço não encontrados";
+        }
+    }
 }
+
+
 
 
 
