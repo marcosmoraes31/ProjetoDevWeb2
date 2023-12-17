@@ -4,7 +4,7 @@
 
 Este projeto visa produzir uma API RESTful para um sistema que visa apoiar a organização de eventos. Foi produzido para atender um trabalho da disciplina Desenvolvimento Web Avançado, da Universidade Federal Fluminense, no semestre 2023.2.
 
-Grupo formado por: Caique Guimarães, Marcos Zina, Natália Ignácio e Ruan Pablo.
+Grupo formado por: Caique Guimarães, Marcos Roberto, Natália Ignácio e Ruan Pablo.
 
 O projeto será desenvolvido em Java. A especificação da API foi desenvolvida utilizando o Swagger Editor, seguindo uma versão da OpenAPI Specification.
 
@@ -12,7 +12,7 @@ Na especificação da API, os endpoints receberam tags de acordo com os atores q
 
 ## Começando
 
-Para visualizar a documentação da API, baixe o arquivo [swagger.yml](https://github.com/apieceofCAKE/event-management-api/blob/master/swagger.yml) e utilize o [Swagger Editor](https://editor-next.swagger.io/) para executar o arquivo corretamente.
+Para visualizar a documentação da API, baixe o arquivo [swagger.yml](https://github.com/marcosmoraes31/ProjetoDevWeb2/blob/oi/swagger.yml) e utilize o [Swagger Editor](https://editor.swagger.io) para executar o arquivo corretamente.
 
 ## Autenticação
 
