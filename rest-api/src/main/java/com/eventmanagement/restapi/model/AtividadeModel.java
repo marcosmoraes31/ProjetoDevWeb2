@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Set;
+
 @Entity(name = "atividade")
 public class AtividadeModel {
 
@@ -41,6 +43,9 @@ public class AtividadeModel {
     @ManyToOne
     @JoinColumn(name = "espaco_id")
     private EspacoModel espaco;
+
+    @ManyToMany(mappedBy = "atividadesFavoritas")
+    private Set<UsuarioModel> usuariosFavoritaram;
 
     public long getId() {
         return id;
@@ -122,4 +127,11 @@ public class AtividadeModel {
         this.espaco = espaco;
     }
 
+    public Set<UsuarioModel> getUsuariosFavoritaram() {
+        return usuariosFavoritaram;
+    }
+
+    public void setUsuariosFavoritaram(Set<UsuarioModel> usuariosFavoritaram) {
+        this.usuariosFavoritaram = usuariosFavoritaram;
+    }
 }

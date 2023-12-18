@@ -2,6 +2,8 @@ package com.eventmanagement.restapi.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity (name ="usuario")
 public class UsuarioModel {
 
@@ -17,6 +19,8 @@ public class UsuarioModel {
     @Column (nullable = false, length = 50)
     public String affiliation;
 
+    @ManyToMany
+    private Set<AtividadeModel>atividadesFavoritas;
     public Long getId() {
         return id;
     }
@@ -55,5 +59,13 @@ public class UsuarioModel {
 
     public void setAffiliation(String affiliation) {
         this.affiliation = affiliation;
+    }
+
+    public Set<AtividadeModel> getAtividadesFavoritas() {
+        return atividadesFavoritas;
+    }
+
+    public void setAtividadesFavoritas(Set<AtividadeModel> atividadesFavoritas) {
+        this.atividadesFavoritas = atividadesFavoritas;
     }
 }

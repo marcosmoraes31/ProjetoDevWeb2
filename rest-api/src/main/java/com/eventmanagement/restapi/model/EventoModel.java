@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+
 import java.util.Set;
 
-@Entity (name ="evento")
+@Entity(name = "evento")
 
 
 public class EventoModel {
@@ -15,14 +16,13 @@ public class EventoModel {
     private Long id;
     @Column(nullable = false, length = 50)
     public String name;
-    @Column (nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     public String abbreviation;
-    @Column (nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     public String description;
 
     @OneToMany(mappedBy = "eventos")
     private Set<EdicaoModel> editions;
-
 
 
     public Long getId() {

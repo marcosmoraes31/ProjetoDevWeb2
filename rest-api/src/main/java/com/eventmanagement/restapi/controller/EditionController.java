@@ -3,29 +3,26 @@ package com.eventmanagement.restapi.controller;
 import com.eventmanagement.restapi.model.EdicaoModel;
 import com.eventmanagement.restapi.repository.EdicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.eventmanagement.restapi.model.EventoModel;
 import com.eventmanagement.restapi.repository.EventoRepository;
-import org.springframework.web.bind.annotation.*;
+
 import java.util.Collections;
-import java.util.ArrayList;
-
-
-
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class EditionController {
+
     @Autowired
     private EdicaoRepository edicaoRepository;
+
     @Autowired
     private EventoRepository eventoRepository;
 
-
     @GetMapping(path = "/api/events/{eventId}/editions")
-    public List<EdicaoModel> getEventEditions(@PathVariable long eventId) {
-        return edicaoRepository.findByEventos_Id(eventId);
+    public List<EdicaoModel> getEventEditions(@PathVariable long eventoId) {
+        return edicaoRepository.findByEventos_Id(eventoId);
     }
 
     @PostMapping(path = "/api/events/{eventId}/editions")
@@ -39,7 +36,7 @@ public class EditionController {
             EventoModel evento = eventoOptional.get();
 
             // Define o evento para a nova edição
-            novaEdicao.setEvento(Collections.singleton(evento)); // Assuming evento is a single event
+            novaEdicao.setEvento(evento);
 
             // Salva a nova edição
             edicaoRepository.save(novaEdicao);
@@ -49,6 +46,7 @@ public class EditionController {
             return "Evento não encontrado";
         }
     }
+
     @PutMapping(path = "/api/events/{eventId}/editions/{editionId}")
     public String atualizarEdicaoParaEvento(
             @PathVariable long eventId,
@@ -63,14 +61,13 @@ public class EditionController {
             EdicaoModel edicao = edicaoOptional.get();
 
             // Verifica se a edição pertence ao evento
-            if (edicao.getEventos().contains(evento)) {
+            if (edicao.getEvento().equals(evento)) {
                 // Atualiza os dados da edição
                 edicao.setNumber(edicaoAtualizada.getNumber());
                 edicao.setYear(edicaoAtualizada.getYear());
                 edicao.setStartDate(edicaoAtualizada.getStartDate());
                 edicao.setEndDate(edicaoAtualizada.getEndDate());
                 edicao.setCity(edicaoAtualizada.getCity());
-
 
                 // Salva a edição atualizada
                 edicaoRepository.save(edicao);
@@ -83,6 +80,7 @@ public class EditionController {
             return "Evento ou edição não encontrado";
         }
     }
+
     @DeleteMapping(path = "/api/events/{eventId}/editions/{editionId}")
     public String deletarEdicaoParaEvento(
             @PathVariable long eventId,
@@ -96,13 +94,7 @@ public class EditionController {
             EdicaoModel edicao = edicaoOptional.get();
 
             // Verifica se a edição pertence ao evento
-            if (edicao.getEventos().contains(evento)) {
-                // Remove a edição do evento
-                evento.getEditions().remove(edicao); // Alteração aqui
-
-                // Remove o evento da edição (opcional, dependendo da sua lógica)
-                edicao.getEventos().remove(evento); // Alteração aqui
-
+            if (edicao.getEvento().equals(evento)) {
                 // Remove a edição do repositório
                 edicaoRepository.delete(edicao);
 
@@ -114,5 +106,4 @@ public class EditionController {
             return "Evento ou edição não encontrado";
         }
     }
-
 }
