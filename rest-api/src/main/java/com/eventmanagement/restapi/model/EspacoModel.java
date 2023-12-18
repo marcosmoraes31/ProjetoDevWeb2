@@ -2,22 +2,23 @@ package com.eventmanagement.restapi.model;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-@Entity (name ="espaco")
-
+@Entity(name ="espaco")
 public class EspacoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false, length = 50)
-    public String name;
-    @Column(nullable = false, length = 50)
-    public String location;
-    @Column(nullable = false, length = 50)
-    public String capacity;
-    @Column(nullable = false, length = 50)
-    public String resources;
 
+    @Column(nullable = false, length = 50)
+    private String name;
+
+    @Column(nullable = false, length = 50)
+    private String location;
+
+    @Column(nullable = false)
+    private int capacity;  // Alteração aqui
+
+    @Column(nullable = false, length = 50)
+    private String resources;
 
     @ManyToOne
     @JoinColumn(name = "evento_id")
@@ -26,7 +27,6 @@ public class EspacoModel {
     @ManyToOne
     @JoinColumn(name = "edicao_id")
     private EdicaoModel edicao;
-
 
     public long getId() {
         return id;
@@ -52,11 +52,11 @@ public class EspacoModel {
         this.location = location;
     }
 
-    public String getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
@@ -84,6 +84,3 @@ public class EspacoModel {
         this.edicao = edicao;
     }
 }
-
-
-

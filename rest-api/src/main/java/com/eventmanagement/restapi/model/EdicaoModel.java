@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
-@Entity(name = "edition")
+@Entity(name ="edition")
 public class EdicaoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,13 +20,15 @@ public class EdicaoModel {
     @Column(nullable = false, length = 50)
     public String city;
 
-    @ManyToOne
-    @JoinColumn(name = "evento_id")
-    private EventoModel eventos;
+    @ManyToMany
+    @JoinTable(
+            name = "evento_edition",
+            joinColumns = @JoinColumn(name = "edition_id"),
+            inverseJoinColumns = @JoinColumn(name = "evento_id")
+    )
 
+    private Set<EventoModel> eventos;
 
-    @OneToMany(mappedBy = "edicao")
-    private Set<EspacoModel> espacos;
 
 
     public long getId() {
@@ -77,11 +79,13 @@ public class EdicaoModel {
         this.city = city;
     }
 
-    public EventoModel getEvento() {
+    public Set<EventoModel> getEventos() {
         return eventos;
     }
-
-    public void setEvento(EventoModel eventos) {
+    public void setEvento(Set<EventoModel> eventos) {
         this.eventos = eventos;
     }
+
+
+
 }
